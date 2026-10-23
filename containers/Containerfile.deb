@@ -1,0 +1,15 @@
+# Built by ccdc-container.sh ON the box it will run on, from that box's own apt sources and package
+# list, so the container runs the same software versions as the service it replaces.
+ARG BASE=docker.io/library/ubuntu:22.04
+FROM ${BASE}
+ARG PKGS
+ENV DEBIAN_FRONTEND=noninteractive
+# The host's apt sources and keys (same package sources as the host)
+COPY apt/ /etc/apt/
+RUN set -e; apt-get update; \
+    apt-get install -y --no-install-recommends $PKGS procps util-linux ca-certificates; \
+    rm -rf /var/lib/apt/lists/*
+COPY rootfs/ /
+COPY entrypoint.sh /usr/local/bin/ccdc-entrypoint
+RUN chmod 755 /usr/local/bin/ccdc-entrypoint
+ENTRYPOINT ["/usr/local/bin/ccdc-entrypoint"]

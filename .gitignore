@@ -1,0 +1,22 @@
+# Keep the GitHub repo small, and never publish competition material or secrets.
+
+# Competition documents: the rules forbid publishing competition details (team packets,
+# injects received, scores). Keep them out of the repo.
+*TeamPack*.pdf
+*Team*Packet*.pdf
+*.pdf
+
+# Large installers (GitHub limit 100 MB per file) - get them on the day from vendor sites /
+# package repos, or with installers/download.sh
+installers/
+
+# Replaced scripts kept only for reference
+old/
+
+# Anything that could hold passwords or evidence
+*passwords*.csv
+*.pcap
+*.pcapng
+*.etl
+evidence-*.txt
+.~lock.*#

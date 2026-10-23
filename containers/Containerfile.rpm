@@ -1,0 +1,17 @@
+# Built by ccdc-container.sh ON the box it will run on, from that box's own repos and package list,
+# so the container runs the same software versions as the service it replaces.
+ARG BASE=docker.io/rockylinux/rockylinux:9
+FROM ${BASE}
+ARG PKGS
+ARG MODULES=""
+# The host's repositories, GPG keys and dnf variables (same package sources as the host)
+COPY repos/ /etc/yum.repos.d/
+COPY rpm-gpg/ /etc/pki/rpm-gpg/
+COPY dnfvars/ /etc/dnf/vars/
+RUN set -e; for m in $MODULES; do dnf -y module enable "$m"; done; \
+    dnf -y install $PKGS procps-ng util-linux findutils; \
+    dnf clean all; rm -rf /var/cache/dnf
+COPY rootfs/ /
+COPY entrypoint.sh /usr/local/bin/ccdc-entrypoint
+RUN chmod 755 /usr/local/bin/ccdc-entrypoint
+ENTRYPOINT ["/usr/local/bin/ccdc-entrypoint"]
