@@ -1,7 +1,6 @@
 # Backups and recovery
 
-There are **no VM snapshots or scrubs** in the invitational - the only full reset is a new lab reservation. Our
-backups are the undo button for everything the red team (or we) break. Two copies of each:
+We loose points if we reset a box. He our our backup location options:
 
 1. **On the box** - fast to restore, but the red team can delete it once they have root/Administrator.
 2. **Off the box, encrypted, on the vault** - survives a wrecked box.
@@ -26,13 +25,11 @@ Root-only. Restores check the checksums first and always save the current state 
 3. **After every legitimate change** (an inject changed the site, added users...) - otherwise a restore undoes the inject.
 Push each one off the box at the next vault window.
 
-## The vault (off-box copies)
+## off-box copies
 The vault is a **server** (`BACKUP_VAULT` in `ccdc.conf`, default the Splunk box `172.20.240.20`; its own backup goes
 to `BACKUP_VAULT_ALT`, the E-com box). Servers may be re-tasked, workstations may not.
 
-**The team backup passphrase** encrypts every off-box copy. Pick it at the start (12+ characters, letters/digits only
-so Windows and Linux read it the same), write it **on paper** only, never in a file or chat. Without it nobody - not us,
-not the red team, not the vault box - can open the backups.
+**team backup passphrase** encrypts every off-box copy. Pick it at the start (12+ characters, letters/digits only)
 
 ### Vault person: open a window (on the vault's console)
 ```bash
